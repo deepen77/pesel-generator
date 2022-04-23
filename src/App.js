@@ -4,6 +4,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Box, TextField, MenuItem, Button, Typography, Select, InputLabel, FormControl, FormHelperText } from "@mui/material";
 import moment from "moment";
+import {
+  isBornBefore2000,
+} from "./helper-functions/helperFunctions";
 
 
 
@@ -11,7 +14,21 @@ function App() {
 
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [gender, setGender] = useState("");
-  
+  const [random, setRandom] = useState([]);
+
+  function generatePESEL() {
+    let enteredValues;
+    let RRMMDD;
+    // enteredValues = moment(dateOfBirth).format("YYYY-MM-DD");
+    // enteredValues = Number(enteredValues.split("-").join(""));
+    enteredValues = Number(moment(dateOfBirth)
+      .format("YYYY-MM-DD")
+      .split("-")
+      .join(""));
+    RRMMDD = isBornBefore2000(RRMMDD, enteredValues);
+    console.log(RRMMDD)
+
+  }
 
 
 
@@ -21,11 +38,13 @@ function App() {
       console.log("not validated");
       return;
     }
-    console.log(dateOfBirth);
-    console.log(moment(dateOfBirth).format("YYYY-MM-DD"));
+    generatePESEL();
+    // console.log(dateOfBirth);
+    // console.log(gender)
+    // console.log(moment(dateOfBirth).format("YYYY-MM-DD"));
     setDateOfBirth(null);
     setGender("");
-
+    setRandom([]);
   };
 
 
