@@ -24,8 +24,10 @@ function App() {
     let RRMMDD;
     // PPP - 7,8,9th number of PESEL(in Array)
     let PPP;
-    // P - woman/man number
+    // P - woman/man number (in Array)
     let P;
+    // 10 digit numbers of PESEL (in Array)
+    let RRMMDDPPPP;
     enteredValues = Number(
       moment(dateOfBirth).format("YYYY-MM-DD").split("-").join("")
     );
@@ -35,6 +37,8 @@ function App() {
     //console.log(PPP)
     P = genderNumberGenerator(gender);
     //console.log(P)
+    RRMMDDPPPP = RRMMDD.concat(PPP).concat(P);
+    //console.log(RRMMDDPPPP)
 
   }
 
