@@ -7,6 +7,7 @@ import moment from "moment";
 import {
   isBornBefore2000,
   randomPPPNum,
+  genderNumberGenerator
 } from "./helper-functions/helperFunctions";
 
 
@@ -23,6 +24,8 @@ function App() {
     let RRMMDD;
     // PPP - 7,8,9th number of PESEL(in Array)
     let PPP;
+    // P - woman/man number
+    let P;
     enteredValues = Number(
       moment(dateOfBirth).format("YYYY-MM-DD").split("-").join("")
     );
@@ -30,13 +33,16 @@ function App() {
     //console.log(RRMMDD);
     PPP = randomPPPNum(random);
     //console.log(PPP)
+    P = genderNumberGenerator(gender);
+    //console.log(P)
+
   }
 
 
 
   const sendForm = (e) => {
     e.preventDefault();
-    if (dateOfBirth === "" || gender === "") {
+    if (dateOfBirth === null || gender === "") {
       console.log("not validated");
       return;
     }

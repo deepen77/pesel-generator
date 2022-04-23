@@ -18,3 +18,17 @@ export function randomPPPNum(arr) {
   }
   return arr;
 }
+
+export function genderNumberGenerator(gender) {
+  if (gender === "W") {
+    const arrayWoman = [0, 2, 4, 6, 8];
+    const randomWoman = arrayWoman[(Math.random() * arrayWoman.length) | 0];
+    return Array.from(String(randomWoman), Number);
+  } else if (gender === "M") {
+    const arrayMan = [1, 3, 5, 7, 9];
+    const randomMan = arrayMan[(Math.random() * arrayMan.length) | 0];
+    return Array.from(String(randomMan), Number);
+  } else {
+    console.log("no gender given");
+  }
+}
