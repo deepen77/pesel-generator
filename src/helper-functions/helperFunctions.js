@@ -10,3 +10,11 @@ export function isBornBefore2000(RRMMDD, enteredValues) {
   }
   return (RRMMDD = Array.from(String(RRMMDD), Number));
 }
+
+
+export function randomPPPNum(arr) {
+  for (let i = 0; i < 3; i++) {
+    arr.push(Math.floor(Math.random() * 9) + 0);
+  }
+  return arr;
+}

@@ -6,6 +6,7 @@ import { Box, TextField, MenuItem, Button, Typography, Select, InputLabel, FormC
 import moment from "moment";
 import {
   isBornBefore2000,
+  randomPPPNum,
 } from "./helper-functions/helperFunctions";
 
 
@@ -18,16 +19,17 @@ function App() {
 
   function generatePESEL() {
     let enteredValues;
+    // RRMMDD - first 6 numbers of PESEL(in Array)
     let RRMMDD;
-    // enteredValues = moment(dateOfBirth).format("YYYY-MM-DD");
-    // enteredValues = Number(enteredValues.split("-").join(""));
-    enteredValues = Number(moment(dateOfBirth)
-      .format("YYYY-MM-DD")
-      .split("-")
-      .join(""));
+    // PPP - 7,8,9th number of PESEL(in Array)
+    let PPP;
+    enteredValues = Number(
+      moment(dateOfBirth).format("YYYY-MM-DD").split("-").join("")
+    );
     RRMMDD = isBornBefore2000(RRMMDD, enteredValues);
-    console.log(RRMMDD)
-
+    //console.log(RRMMDD);
+    PPP = randomPPPNum(random);
+    //console.log(PPP)
   }
 
 
@@ -39,9 +41,6 @@ function App() {
       return;
     }
     generatePESEL();
-    // console.log(dateOfBirth);
-    // console.log(gender)
-    // console.log(moment(dateOfBirth).format("YYYY-MM-DD"));
     setDateOfBirth(null);
     setGender("");
     setRandom([]);
