@@ -22,6 +22,10 @@ function App() {
   const [gender, setGender] = useState("");
   const [random, setRandom] = useState([]);
 
+  const [errorMesages, setErrorMessages] = useState("");
+
+  const [pesel, setPesel] = useState("");
+
   function generatePESEL() {
 
     let enteredValues;
@@ -58,6 +62,7 @@ function App() {
     //console.log(K)
     RRMMDDPPPPK = [...RRMMDDPPPP, K].join("");
     console.log("result:", RRMMDDPPPPK);
+    setPesel(RRMMDDPPPPK);
   }
 
 
@@ -65,20 +70,28 @@ function App() {
   const sendForm = (e) => {
     e.preventDefault();
     const yearEntered = moment(dateOfBirth).format("YYYY");
+
+
     if (dateOfBirth === null || gender === "") {
       console.log("all fields are requried");
+      setErrorMessages("all fields are requried");
       return;
-    } else if (yearEntered === "Invalid date") {
+    } else if (
+      yearEntered === "Invalid date" ||
+      yearEntered < 1900 ||
+      yearEntered > 2099
+    ) {
       console.log("Invalid date");
-      return;
-    } else if (yearEntered < 1900 || yearEntered > 2099) {
-      console.log("range of year is between 1900 and 2099");
+      setErrorMessages("Invalid date");
       return;
     }
+
+
     generatePESEL();
     setDateOfBirth(null);
     setGender("");
     setRandom([]);
+    setErrorMessages('')
   };
 
 
@@ -99,12 +112,18 @@ function App() {
               label="Date Of Birth"
               value={dateOfBirth}
               views={["year", "month", "day"]}
-              onChange={(newValue) => setDateOfBirth(newValue)}
+              onChange={(newValue) => {
+                setDateOfBirth(newValue);
+              }}
               inputFormat="dd/MM/yyyy"
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  helperText={params?.inputProps?.placeholder}
+                  helperText={
+                    errorMesages === ""
+                      ? params?.inputProps?.placeholder
+                      : errorMesages
+                  }
                 />
               )}
             />
@@ -134,6 +153,13 @@ function App() {
             GENERATE
           </Button>
         </Box>
+        <Typography variant="body1" gutterBottom marginTop={10}>
+          Generated PESEL is:
+        </Typography>
+        {pesel ? <Typography variant="h4" marginTop={1} backgroundColor="lightgrey" padding={1.5} borderRadius="5px">
+          {pesel}
+        </Typography> : null}
+
       </Box>
     </>
   );
