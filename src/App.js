@@ -64,12 +64,17 @@ function App() {
 
   const sendForm = (e) => {
     e.preventDefault();
+    const yearEntered = moment(dateOfBirth).format("YYYY");
     if (dateOfBirth === null || gender === "") {
       console.log("all fields are requried");
       return;
+    } else if (yearEntered === "Invalid date") {
+      console.log("Invalid date");
+      return;
+    } else if (yearEntered < 1900 || yearEntered > 2099) {
+      console.log("range of year is between 1900 and 2099");
+      return;
     }
-
-    
     generatePESEL();
     setDateOfBirth(null);
     setGender("");
