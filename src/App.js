@@ -21,13 +21,9 @@ function App() {
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [gender, setGender] = useState("");
   const [random, setRandom] = useState([]);
-
-  const [errorMesages, setErrorMessages] = useState("");
-
-  const [pesel, setPesel] = useState("");
+  const [errorMessages, setErrorMessages] = useState("");const [pesel, setPesel] = useState("");
 
   function generatePESEL() {
-
     let enteredValues;
     // RRMMDD - first 6 numbers of PESEL(in Array)
     let RRMMDD;
@@ -61,21 +57,20 @@ function App() {
   const sendForm = (e) => {
     e.preventDefault();
     const yearEntered = moment(dateOfBirth).format("YYYY");
-
-
-    if (dateOfBirth === null || gender === "") {
+    if (dateOfBirth === null && gender === "") {
       setErrorMessages("all fields are requried");
+      setPesel("")
       return;
     } else if (
       yearEntered === "Invalid date" ||
       yearEntered < 1900 ||
       yearEntered > 2099
     ) {
-      setErrorMessages("Invalid date");
+      setErrorMessages("Invalid date or Gender is not filled correctly");
+      setPesel("");
       return;
     }
-
-
+    
     generatePESEL();
     setDateOfBirth(null);
     setGender("");
@@ -104,14 +99,16 @@ function App() {
               onChange={(newValue) => {
                 setDateOfBirth(newValue);
               }}
+
               inputFormat="dd/MM/yyyy"
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  error={errorMessages.length>0}
                   helperText={
-                    errorMesages === ""
+                    errorMessages === ""
                       ? params?.inputProps?.placeholder
-                      : errorMesages
+                      : errorMessages
                   }
                 />
               )}
@@ -126,7 +123,9 @@ function App() {
               id="demo-simple-select-helper"
               value={gender}
               label="Gender"
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) =>{
+                setGender(e.target.value);
+              } }
             >
               <MenuItem value="">
                 <em>None</em>
@@ -134,7 +133,19 @@ function App() {
               <MenuItem value={"W"}>Woman</MenuItem>
               <MenuItem value={"M"}>Man</MenuItem>
             </Select>
-            <FormHelperText>Please select gender</FormHelperText>
+            <FormHelperText
+              sx={
+                errorMessages === ""
+                  ? {
+                      color: "grey",
+                    }
+                  : {
+                      color: "#d32f2f",
+                    }
+              }
+            >
+              {errorMessages === "" ? "Please select gender" : errorMessages}
+            </FormHelperText>
           </FormControl>
         </Box>
         <Box marginTop={3}>
@@ -145,10 +156,17 @@ function App() {
         <Typography variant="body1" gutterBottom marginTop={10}>
           Generated PESEL is:
         </Typography>
-        {pesel ? <Typography variant="h4" marginTop={1} backgroundColor="lightgrey" padding={1.5} borderRadius="5px">
-          {pesel}
-        </Typography> : null}
-
+        {pesel ? (
+          <Typography
+            variant="h4"
+            marginTop={1}
+            backgroundColor="lightgrey"
+            padding={1.5}
+            borderRadius="5px"
+          >
+            {pesel}
+          </Typography>
+        ) : null}
       </Box>
     </>
   );
