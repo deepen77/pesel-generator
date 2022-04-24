@@ -7,7 +7,11 @@ import moment from "moment";
 import {
   isBornBefore2000,
   randomPPPNum,
-  genderNumberGenerator
+  genderNumberGenerator,
+  multiplyByTemplate,
+  modifyArray,
+  sumOfArray,
+  generateControlNumber
 } from "./helper-functions/helperFunctions";
 
 
@@ -19,6 +23,7 @@ function App() {
   const [random, setRandom] = useState([]);
 
   function generatePESEL() {
+
     let enteredValues;
     // RRMMDD - first 6 numbers of PESEL(in Array)
     let RRMMDD;
@@ -28,6 +33,10 @@ function App() {
     let P;
     // 10 digit numbers of PESEL (in Array)
     let RRMMDDPPPP;
+    // control number (last digit in PESEL)
+    let K;
+    // full PESEL number generated (in Array)
+    let RRMMDDPPPPK;
     enteredValues = Number(
       moment(dateOfBirth).format("YYYY-MM-DD").split("-").join("")
     );
@@ -39,7 +48,16 @@ function App() {
     //console.log(P)
     RRMMDDPPPP = RRMMDD.concat(PPP).concat(P);
     //console.log(RRMMDDPPPP)
-
+    const multipliedArray = multiplyByTemplate(RRMMDDPPPP);
+    //console.log(multipliedArray)
+    const correctedArray = modifyArray(multipliedArray);
+    //console.log(correctedArray)
+    const sum = sumOfArray(correctedArray);
+    //console.log(sum)
+    K = generateControlNumber(sum);
+    //console.log(K)
+    RRMMDDPPPPK = [...RRMMDDPPPP, K].join("");
+    console.log("result:", RRMMDDPPPPK);
   }
 
 
@@ -47,9 +65,11 @@ function App() {
   const sendForm = (e) => {
     e.preventDefault();
     if (dateOfBirth === null || gender === "") {
-      console.log("not validated");
+      console.log("all fields are requried");
       return;
     }
+
+    
     generatePESEL();
     setDateOfBirth(null);
     setGender("");
@@ -73,7 +93,9 @@ function App() {
             <DatePicker
               label="Date Of Birth"
               value={dateOfBirth}
+              views={["year", "month", "day"]}
               onChange={(newValue) => setDateOfBirth(newValue)}
+              inputFormat="dd/MM/yyyy"
               renderInput={(params) => (
                 <TextField
                   {...params}
