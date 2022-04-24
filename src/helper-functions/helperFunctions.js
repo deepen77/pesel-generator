@@ -28,9 +28,7 @@ export function genderNumberGenerator(gender) {
     const arrayMan = [1, 3, 5, 7, 9];
     const randomMan = arrayMan[(Math.random() * arrayMan.length) | 0];
     return Array.from(String(randomMan), Number);
-  } else {
-    console.log("no gender given");
-  }
+  } 
 }
 
 
@@ -39,7 +37,6 @@ export function genderNumberGenerator(gender) {
 
 export function multiplyByTemplate(arr1) {
   const template = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
-  //console.log(arr1.map((e, index) => e * K[index]));
   return arr1.map((e, index) => e * template[index]);
 }
 
@@ -63,7 +60,6 @@ export function sumOfArray(correctedArray) {
     let sum = correctedArray.reduce(function (a, b) {
       return a + b;
     }, 0);
-    //console.log(sum);
     if (sum.toString().length > 1) {
       sum = Number(sum.toString().substring(1));
       if (sum === 0) {

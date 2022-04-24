@@ -45,23 +45,14 @@ function App() {
       moment(dateOfBirth).format("YYYY-MM-DD").split("-").join("")
     );
     RRMMDD = isBornBefore2000(RRMMDD, enteredValues);
-    //console.log(RRMMDD);
     PPP = randomPPPNum(random);
-    //console.log(PPP)
     P = genderNumberGenerator(gender);
-    //console.log(P)
     RRMMDDPPPP = RRMMDD.concat(PPP).concat(P);
-    //console.log(RRMMDDPPPP)
     const multipliedArray = multiplyByTemplate(RRMMDDPPPP);
-    //console.log(multipliedArray)
     const correctedArray = modifyArray(multipliedArray);
-    //console.log(correctedArray)
     const sum = sumOfArray(correctedArray);
-    //console.log(sum)
     K = generateControlNumber(sum);
-    //console.log(K)
     RRMMDDPPPPK = [...RRMMDDPPPP, K].join("");
-    console.log("result:", RRMMDDPPPPK);
     setPesel(RRMMDDPPPPK);
   }
 
@@ -73,7 +64,6 @@ function App() {
 
 
     if (dateOfBirth === null || gender === "") {
-      console.log("all fields are requried");
       setErrorMessages("all fields are requried");
       return;
     } else if (
@@ -81,7 +71,6 @@ function App() {
       yearEntered < 1900 ||
       yearEntered > 2099
     ) {
-      console.log("Invalid date");
       setErrorMessages("Invalid date");
       return;
     }
