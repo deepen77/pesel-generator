@@ -57,7 +57,7 @@ function App() {
   const sendForm = (e) => {
     e.preventDefault();
     const yearEntered = moment(dateOfBirth).format("YYYY");
-    if (dateOfBirth === null && gender === "") {
+    if (dateOfBirth === null || gender === "") {
       setErrorMessages("all fields are requried");
       setPesel("")
       return;
@@ -70,7 +70,7 @@ function App() {
       setPesel("");
       return;
     }
-    
+
     generatePESEL();
     setDateOfBirth(null);
     setGender("");
